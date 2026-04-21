@@ -1,0 +1,17 @@
+[
+  {
+    "nom": "pain aux chocolat",
+    "code": 1,
+    "prix": "12,73"
+  },
+  {
+    "nom": "pain aux chocolat",
+    "code": 2,
+    "prix": "0,03"
+  },
+  {
+    "nom": "pain aux chocolat",
+    "code": 3,
+    "prix": "15,99"
+  }
+]
