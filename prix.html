@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prix article</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .label {
+      font-size: 13px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .nom {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+    }
+
+    .prix-label {
+      font-size: 13px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+    }
+
+    .prix {
+      font-size: 48px;
+      font-weight: 700;
+      color: #2563eb;
+      line-height: 1;
+    }
+
+    .devise {
+      font-size: 24px;
+      color: #2563eb;
+      vertical-align: super;
+      margin-left: 4px;
+    }
+
+    .code-badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: #f0f4ff;
+      color: #2563eb;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .error {
+      color: #dc2626;
+      font-size: 16px;
+      margin-top: 1rem;
+    }
+
+    .loading {
+      color: #888;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <p class="loading">Chargement...</p>
+  </div>
+
+  <script>
+    const JSON_URL = "https://raw.githubusercontent.com/Altria98/test_bakery/main/bakery.json";
+
+    const params = new URLSearchParams(window.location.search);
+    const code   = parseInt(params.get("code"));
+    const card   = document.getElementById("card");
+
+    if (!code) {
+      card.innerHTML = '<p class="error">Aucun code spécifié dans l\'URL.<br><small>Exemple : prix.html?code=1</small></p>';
+    } else {
+      fetch(JSON_URL)
+        .then(r => {
+          if (!r.ok) throw new Error("Impossible de charger le JSON.");
+          return r.json();
+        })
+        .then(data => {
+          const article = data.find(d => d.code === code);
+          if (!article) {
+            card.innerHTML = `<p class="error">Aucun article trouvé pour le code <strong>${code}</strong>.</p>`;
+            return;
+          }
+          card.innerHTML = `
+            <p class="label">Article</p>
+            <p class="nom">${article.nom}</p>
+            <p class="prix-label">Prix</p>
+            <p class="prix">${article.prix}<span class="devise">€</span></p>
+            <span class="code-badge">Code #${article.code}</span>
+          `;
+        })
+        .catch(err => {
+          card.innerHTML = `<p class="error">${err.message}</p>`;
+        });
+    }
+  </script>
+</body>
+</html>
