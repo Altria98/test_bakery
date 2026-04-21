@@ -5,12 +5,12 @@
     "prix": "12,73"
   },
   {
-    "nom": "pain aux chocolat",
+    "nom": "croissant",
     "code": 2,
     "prix": "0,03"
   },
   {
-    "nom": "pain aux chocolat",
+    "nom": "baguette",
     "code": 3,
     "prix": "15,99"
   }
